@@ -41,10 +41,8 @@ describe('Gameboard class', () => {
       expect(gameboard.receiveAttack(2, 3)).toBe(true);
     });
 
-    test('misses the ship and returns aimed position', () => {
-      gameboard.receiveAttack(6, 4);
-
-      expect(gameboard.missed[gameboard.missed.length - 1]).toBe(6, 4);
+    test('misses the ship and returns false', () => {
+      expect(gameboard.receiveAttack(6, 4)).toBe(false);
     });
   });
 
