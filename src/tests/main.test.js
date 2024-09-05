@@ -1,5 +1,6 @@
 import { Ship } from '../ship.js';
 import { Gameboard } from '../gameboard.js';
+import { Player } from '../player.js';
 
 describe('Ship class', () => {
   let ship;
@@ -60,5 +61,18 @@ describe('Gameboard class', () => {
 
       expect(gameboard.haveAllBeenSunk()).toBe(false);
     });
+  });
+});
+
+describe('Player class', () => {
+  test('correctly assigns a type to the Player object', () => {
+    const player = new Player('real');
+
+    expect(player.type).toBe('real');
+  });
+  test('correctly assigns a board to the Player object', () => {
+    const player = new Player('real');
+
+    expect(player.gameboard.board[9][9]).toBe(null);
   });
 });
