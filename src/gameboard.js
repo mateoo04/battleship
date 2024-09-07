@@ -12,9 +12,16 @@ export class Gameboard {
     //checking if there is free space in and around the chosen area
     //case for a horizontally aligned ship
     if (orientation === 'horizontal') {
+      //checking if ship is too large
+      if (y + ship.length > 10) return;
+
       for (let i = Math.max(x - 1, 0); i <= Math.min(9, x + 1); i++) {
-        for (let j = Math.max(0, y - 1); j <= Math.min(9, y - +1); j++) {
-          if (!this.#isEmpty(x, y)) return false;
+        for (
+          let j = Math.max(0, y - 1);
+          j <= Math.min(9, y + ship.length - 1);
+          j++
+        ) {
+          if (!this.#isEmpty(i, j)) return;
         }
       }
 
@@ -25,13 +32,16 @@ export class Gameboard {
     }
     //case for a vertically aligned ship
     else {
-      for (let i = y === 0 ? y : y - 1; i <= y === 9 ? y : y + 1; i++) {
+      //checking if ship is too large
+      if (x + ship.length > 10) return;
+
+      for (let j = Math.max(0, y - 1); j <= Math.min(9, y + 1); j++) {
         for (
-          let j = x === 0 ? x : x - 1;
-          j < ship.length === 9 ? ship.length : ship.length + 1;
-          j++
+          let i = Math.max(0, x - 1);
+          i <= Math.min(9, x + ship.length - 1);
+          i++
         ) {
-          if (!this.#isEmpty(x, y)) return false;
+          if (!this.#isEmpty(i, j)) return;
         }
       }
 
@@ -39,7 +49,6 @@ export class Gameboard {
       for (let i = x; i < x + ship.length; i++) {
         this.board[i][y] = ship;
       }
-      ship.push(ship);
     }
   }
 

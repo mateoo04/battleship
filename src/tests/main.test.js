@@ -39,11 +39,11 @@ describe('Gameboard class', () => {
       expect(gameboard.board[2][4]).toBe(ship);
     });
 
-    // test("second ship isn't places due to proximity to the fist one", () => {
-    //   gameboard.placeShip(ship, 3, 2, 'vertical');
+    test("second ship isn't places due to proximity to the fist one", () => {
+      gameboard.placeShip(ship, 3, 2, 'vertical');
 
-    //   expect(gameboard.board[3][2]).toBe(null);
-    // });
+      expect(gameboard.board[3][2]).toBe(null);
+    });
   });
 
   describe('receiveAttack method', () => {
@@ -53,6 +53,12 @@ describe('Gameboard class', () => {
 
     test('misses the ship and returns false', () => {
       expect(gameboard.receiveAttack(6, 4)).toBe(false);
+    });
+
+    test('ship should not be added due to it being to large for the chosen position', () => {
+      gameboard.placeShip(ship, 8, 9, 'horizontal');
+
+      expect(gameboard.board[8][9]).toBe(null);
     });
   });
 
