@@ -44,9 +44,9 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
-    if (this.board[x][y] !== null) {
+    if (this.board[x][y] !== null && this.board[x][y] !== 'hit') {
       this.board[x][y].hit();
-      this.board[x][y] = null;
+      this.board[x][y] = 'hit';
       return true;
     }
 
@@ -55,6 +55,9 @@ export class Gameboard {
   }
 
   haveAllBeenSunk() {
-    return this.board.every((row) => row.every((item) => item === null));
+    console.table(this.board);
+    return !this.board.some((row) =>
+      row.some((item) => item !== null && item !== 'hit')
+    );
   }
 }

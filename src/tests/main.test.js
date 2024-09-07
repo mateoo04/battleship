@@ -26,15 +26,24 @@ describe('Ship class', () => {
 });
 
 describe('Gameboard class', () => {
-  const gameboard = new Gameboard();
+  let gameboard;
   const ship = new Ship(3);
 
-  beforeEach(() => gameboard.placeShip(ship, 2, 2, 'horizontal'));
+  beforeEach(() => {
+    gameboard = new Gameboard();
+    gameboard.placeShip(ship, 2, 2, 'horizontal');
+  });
 
   describe('placeShip method', () => {
     test('places the ship at the correct starting position', () => {
       expect(gameboard.board[2][4]).toBe(ship);
     });
+
+    // test("second ship isn't places due to proximity to the fist one", () => {
+    //   gameboard.placeShip(ship, 3, 2, 'vertical');
+
+    //   expect(gameboard.board[3][2]).toBe(null);
+    // });
   });
 
   describe('receiveAttack method', () => {
@@ -66,12 +75,12 @@ describe('Gameboard class', () => {
 
 describe('Player class', () => {
   test('correctly assigns a type to the Player object', () => {
-    const player = new Player('real');
+    const player = new Player('Player 1', 'real');
 
     expect(player.type).toBe('real');
   });
   test('correctly assigns a board to the Player object', () => {
-    const player = new Player('real');
+    const player = new Player('Player 1', 'real');
 
     expect(player.gameboard.board[9][9]).toBe(null);
   });
