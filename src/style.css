@@ -60,11 +60,28 @@ main {
 
 .board-item:hover {
   cursor: pointer;
+  opacity: 0.8;
 }
 
 .ship {
   background-color: var(--lighter-color);
 }
 
-.hit-ship {
+.hit-ship::before,
+.hit-ship::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-top: 3px solid #000;
+}
+
+.hit-ship::before {
+  transform: rotate(45deg);
+}
+
+.hit-ship::after {
+  transform: rotate(-45deg);
 }

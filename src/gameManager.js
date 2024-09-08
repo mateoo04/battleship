@@ -14,8 +14,8 @@ function setUpGame() {
   firstPlayer.gameboard.placeShip(new Ship(1), 7, 2, 'horizontal');
   firstPlayer.gameboard.placeShip(new Ship(2), 0, 2, 'horizontal');
   firstPlayer.gameboard.placeShip(new Ship(3), 4, 2, 'horizontal');
-  firstPlayer.gameboard.placeShip(new Ship(4), 6, 2, 'horizontal');
-  firstPlayer.gameboard.placeShip(new Ship(5), 8, 2, 'horizontal');
+  firstPlayer.gameboard.placeShip(new Ship(4), 3, 8, 'vertical');
+  firstPlayer.gameboard.placeShip(new Ship(5), 5, 6, 'vertical');
 
   secondPlayer.gameboard.placeShip(new Ship(1), 7, 2, 'horizontal');
   secondPlayer.gameboard.placeShip(new Ship(2), 0, 2, 'horizontal');
@@ -23,8 +23,7 @@ function setUpGame() {
   secondPlayer.gameboard.placeShip(new Ship(4), 6, 4, 'horizontal');
   secondPlayer.gameboard.placeShip(new Ship(5), 5, 0, 'vertical');
 
-  dom.populateBoard(firstPlayer);
-  dom.populateBoard(secondPlayer);
+  dom.populateBoard(firstPlayer, secondPlayer);
 }
 
 setUpGame();
