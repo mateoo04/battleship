@@ -1,8 +1,12 @@
 import style from './style.css';
 
+const NEW_GAME = 'new game';
+
 export class DOMManager {
   constructor() {
     setUpPlayAgainButton();
+    setNameClickListeners();
+    setUpResetButton();
   }
 
   populateActivePlayersBoard(player) {
@@ -106,10 +110,65 @@ export class DOMManager {
 function setUpPlayAgainButton() {
   const playAgainButton = document.querySelector('.play-again-button');
 
-  const NEW_GAME = 'new game';
   playAgainButton.addEventListener('click', () => {
     PubSub.publish(NEW_GAME);
 
     document.querySelector('.end-dialog').close();
+  });
+}
+
+function setNameClickListeners() {
+  const changeNameDialog = document.querySelector('.change-names-dialog');
+
+  const firstNamePlayerName = document.querySelector(
+    '.first-player .players-name'
+  );
+  const secondNamePlayerName = document.querySelector(
+    '.second-player .players-name'
+  );
+
+  firstNamePlayerName.addEventListener('click', () => {
+    changeNameDialog.showModal();
+  });
+
+  secondNamePlayerName.addEventListener('click', () => {
+    changeNameDialog.showModal();
+  });
+
+  const changeNameForm = document.querySelector('.change-names-dialog form');
+
+  changeNameForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    updateNames(
+      document.querySelector('#first-name-input').value,
+      document.querySelector('#second-name-input').value
+    );
+
+    changeNameForm.reset();
+    changeNameDialog.close();
+  });
+}
+
+function updateNames(name1, name2) {
+  const firstNamePlayerName = document.querySelector(
+    '.first-player .players-name'
+  );
+  const secondNamePlayerName = document.querySelector(
+    '.second-player .players-name'
+  );
+
+  firstNamePlayerName.textContent = name1.trim() === '' ? 'Player 1' : name1;
+  secondNamePlayerName.textContent = name2.trim() === '' ? 'Player 2' : name2;
+
+  const CHANGE_NAMES = 'change names';
+  PubSub.publish(CHANGE_NAMES, [name1, name2]);
+}
+
+function setUpResetButton() {
+  const resetButton = document.querySelector('.reset-button');
+
+  resetButton.addEventListener('click', () => {
+    PubSub.publish(NEW_GAME);
   });
 }

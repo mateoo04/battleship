@@ -17,4 +17,8 @@ export class Player {
   setAsOpponent() {
     this.isActive = false;
   }
+
+  changeName(newName) {
+    this.name = newName;
+  }
 }

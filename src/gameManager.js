@@ -3,6 +3,11 @@ import { Player } from './player.js';
 import { Ship } from './ship.js';
 import PubSub from 'pubsub-js';
 
+const SHIP_HIT = 'ship hit';
+const SHIP_MISSED = 'ship missed';
+const NEW_GAME = 'new game';
+const CHANGE_NAMES = 'change names';
+
 let dom = new DOMManager();
 let firstPlayer;
 let secondPlayer;
@@ -54,10 +59,6 @@ function checkForWinner() {
     dom.showEndDialog(firstPlayer);
 }
 
-startGameWithBot();
-
-const SHIP_HIT = 'ship hit';
-
 PubSub.subscribe(SHIP_HIT, () => {
   if (secondPlayer.isActive === true) {
     makeBotMove();
@@ -67,7 +68,6 @@ PubSub.subscribe(SHIP_HIT, () => {
   checkForWinner();
 });
 
-const SHIP_MISSED = 'ship missed';
 PubSub.subscribe(SHIP_MISSED, () => {
   if (firstPlayer.isActive) {
     firstPlayer.isActive = false;
@@ -83,5 +83,11 @@ PubSub.subscribe(SHIP_MISSED, () => {
   checkForWinner();
 });
 
-const NEW_GAME = 'new game';
 PubSub.subscribe(NEW_GAME, () => startGameWithBot());
+
+PubSub.subscribe(CHANGE_NAMES, (message, newNames) => {
+  firstPlayer.changeName(newNames[0]);
+  firstPlayer.changeName(newNames[1]);
+});
+
+startGameWithBot();
