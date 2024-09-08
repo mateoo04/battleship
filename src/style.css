@@ -1,7 +1,7 @@
 :root {
   --block-dimension: min(50px, calc(4vw));
-  --primary-color: #7337d4;
-  --lighter-color: #d7c3f7;
+  --primary-color: #4f209b;
+  --lighter-color: #7e87ff;
 }
 
 * {
@@ -67,15 +67,24 @@ main {
   background-color: var(--lighter-color);
 }
 
+.hit-ship {
+  position: relative;
+  border: 1px solid black;
+  padding-top: -4px;
+}
+
 .hit-ship::before,
 .hit-ship::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   width: 100%;
-  height: 100%;
-  border-top: 3px solid #000;
+  height: 3px;
+  background-color: var(--primary-color);
 }
 
 .hit-ship::before {
@@ -84,4 +93,41 @@ main {
 
 .hit-ship::after {
   transform: rotate(-45deg);
+}
+
+.attacked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  width: calc(var(--block-dimension) / 3);
+  height: calc(var(--block-dimension) / 3);
+  border-radius: 50%;
+  background-color: #000;
+}
+
+.end-dialog {
+  border: none;
+  border-radius: 20px;
+}
+
+.end-dialog-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.end-dialog p {
+  font-size: 1.5em;
+}
+
+.end-dialog button {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: bold;
+  padding: 8px;
 }

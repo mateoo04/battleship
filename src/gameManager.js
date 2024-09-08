@@ -1,14 +1,24 @@
 import { DOMManager } from './domManager.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
+import PubSub from 'pubsub-js';
 
-let dom;
+let dom = new DOMManager();
+let firstPlayer;
+let secondPlayer;
 
-function setUpGame() {
-  const firstPlayer = new Player('Player 1', 'real');
-  const secondPlayer = new Player('Player 2', 'computer');
-
-  dom = new DOMManager(firstPlayer, secondPlayer);
+function startGameWithBot() {
+  firstPlayer = new Player(
+    'Player 1',
+    'real',
+    '.first-player .board-grid-container',
+    true
+  );
+  secondPlayer = new Player(
+    'Player 2',
+    'computer',
+    '.second-player .board-grid-container'
+  );
 
   //code for manual ship creation should be removed after enabling user to place ships by himself
   firstPlayer.gameboard.placeShip(new Ship(1), 7, 2, 'horizontal');
@@ -26,4 +36,52 @@ function setUpGame() {
   dom.populateBoard(firstPlayer, secondPlayer);
 }
 
-setUpGame();
+function makeBotMove() {
+  const x = Math.floor(Math.random() * 10);
+  const y = Math.floor(Math.random() * 10);
+
+  while (
+    firstPlayer.gameboard.board[x][y] === null ||
+    firstPlayer.gameboard.board[x][y] instanceof Ship
+  ) {
+    firstPlayer.gameboard.receiveAttack(x, y);
+  }
+}
+
+function checkForWinner() {
+  if (firstPlayer.gameboard.haveAllBeenSunk()) dom.showEndDialog(secondPlayer);
+  else if (secondPlayer.gameboard.haveAllBeenSunk())
+    dom.showEndDialog(firstPlayer);
+}
+
+startGameWithBot();
+
+const SHIP_HIT = 'ship hit';
+
+PubSub.subscribe(SHIP_HIT, () => {
+  if (secondPlayer.isActive === true) {
+    makeBotMove();
+  }
+
+  dom.populateBoard(firstPlayer, secondPlayer);
+  checkForWinner();
+});
+
+const SHIP_MISSED = 'ship missed';
+PubSub.subscribe(SHIP_MISSED, () => {
+  if (firstPlayer.isActive) {
+    firstPlayer.isActive = false;
+    secondPlayer.isActive = true;
+
+    makeBotMove();
+  } else {
+    firstPlayer.isActive = true;
+    secondPlayer.isActive = false;
+  }
+
+  dom.populateBoard(firstPlayer, secondPlayer);
+  checkForWinner();
+});
+
+const NEW_GAME = 'new game';
+PubSub.subscribe(NEW_GAME, () => startGameWithBot());

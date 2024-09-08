@@ -55,20 +55,32 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
-    if (this.board[x][y] !== null && this.board[x][y] !== 'hit') {
+    if (this.board[x][y] === null) {
+      this.board[x][y] = 'attacked';
+    } else if (
+      this.board[x][y] !== null &&
+      this.board[x][y] !== 'hit' &&
+      this.board[x][y] !== 'attacked'
+    ) {
       this.board[x][y].hit();
       this.board[x][y] = 'hit';
+
+      const SHIP_HIT = 'ship hit';
+      PubSub.publish(SHIP_HIT);
+
       return true;
     }
+
+    const SHIP_MISSED = 'ship missed';
+    PubSub.publish(SHIP_MISSED);
 
     this.missed.push([6, 4]);
     return false;
   }
 
   haveAllBeenSunk() {
-    console.table(this.board);
     return !this.board.some((row) =>
-      row.some((item) => item !== null && item !== 'hit')
+      row.some((item) => item !== null && item !== 'hit' && item !== 'attacked')
     );
   }
 }

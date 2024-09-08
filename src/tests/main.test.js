@@ -81,12 +81,12 @@ describe('Gameboard class', () => {
 
 describe('Player class', () => {
   test('correctly assigns a type to the Player object', () => {
-    const player = new Player('Player 1', 'real');
+    const player = new Player('Player 1', 'real', 0);
 
     expect(player.type).toBe('real');
   });
   test('correctly assigns a board to the Player object', () => {
-    const player = new Player('Player 1', 'real');
+    const player = new Player('Player 1', 'real', 0);
 
     expect(player.gameboard.board[9][9]).toBe(null);
   });
