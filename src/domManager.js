@@ -148,6 +148,10 @@ function setNameClickListeners() {
     changeNameForm.reset();
     changeNameDialog.close();
   });
+
+  document.querySelector('.cancel-button').addEventListener('click', () => {
+    changeNameDialog.close();
+  });
 }
 
 function updateNames(name1, name2) {

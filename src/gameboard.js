@@ -15,15 +15,15 @@ export class Gameboard {
     //case for a horizontally aligned ship
     if (orientation === 'horizontal') {
       //checking if ship is too large
-      if (y + ship.length > 10) return;
+      if (y + ship.length > 10) return false;
 
       for (let i = Math.max(x - 1, 0); i <= Math.min(9, x + 1); i++) {
         for (
           let j = Math.max(0, y - 1);
-          j <= Math.min(9, y + ship.length - 1);
+          j <= Math.min(9, y + ship.length);
           j++
         ) {
-          if (!this.#isEmpty(i, j)) return;
+          if (!this.#isEmpty(i, j)) return false;
         }
       }
 
@@ -31,19 +31,24 @@ export class Gameboard {
       for (let j = y; j < y + ship.length; j++) {
         this.board[x][j] = ship;
       }
+
+      return true;
     }
     //case for a vertically aligned ship
     else {
       //checking if ship is too large
-      if (x + ship.length > 10) return;
+      if (x + ship.length > 10) return false;
 
       for (let j = Math.max(0, y - 1); j <= Math.min(9, y + 1); j++) {
         for (
           let i = Math.max(0, x - 1);
-          i <= Math.min(9, x + ship.length - 1);
+          i <= Math.min(9, x + ship.length);
           i++
         ) {
-          if (!this.#isEmpty(i, j)) return;
+          if (!this.#isEmpty(i, j)) {
+            console.log('it is true');
+            return false;
+          }
         }
       }
 
@@ -51,6 +56,8 @@ export class Gameboard {
       for (let i = x; i < x + ship.length; i++) {
         this.board[i][y] = ship;
       }
+
+      return true;
     }
   }
 

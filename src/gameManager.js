@@ -26,19 +26,31 @@ function startGameWithBot() {
   );
 
   //code for manual ship creation should be removed after enabling user to place ships by himself
-  firstPlayer.gameboard.placeShip(new Ship(1), 7, 2, 'horizontal');
+  firstPlayer.gameboard.placeShip(new Ship(1), 1, 2, 'horizontal');
   firstPlayer.gameboard.placeShip(new Ship(2), 0, 2, 'horizontal');
-  firstPlayer.gameboard.placeShip(new Ship(3), 4, 2, 'horizontal');
-  firstPlayer.gameboard.placeShip(new Ship(4), 3, 8, 'vertical');
-  firstPlayer.gameboard.placeShip(new Ship(5), 5, 6, 'vertical');
+  firstPlayer.gameboard.placeShip(new Ship(4), 2, 1, 'vertical');
+  firstPlayer.gameboard.placeShip(new Ship(3), 6, 5, 'vertical');
+  firstPlayer.gameboard.placeShip(new Ship(5), 1, 6, 'vertical');
 
-  secondPlayer.gameboard.placeShip(new Ship(1), 7, 2, 'horizontal');
-  secondPlayer.gameboard.placeShip(new Ship(2), 0, 2, 'horizontal');
-  secondPlayer.gameboard.placeShip(new Ship(3), 2, 8, 'vertical');
-  secondPlayer.gameboard.placeShip(new Ship(4), 6, 4, 'horizontal');
-  secondPlayer.gameboard.placeShip(new Ship(5), 5, 0, 'vertical');
+  placeBotShips();
 
   dom.populateBoard(firstPlayer, secondPlayer);
+}
+
+function placeBotShips() {
+  for (let i = 1; i <= 5; i++) {
+    let shipPlaced = false;
+
+    while (!shipPlaced) {
+      shipPlaced = secondPlayer.gameboard.placeShip(
+        new Ship(i),
+        Math.floor(Math.random() * 10),
+        Math.floor(Math.random() * 10),
+        Math.random() > 0.5 ? 'horizontal' : 'vertical'
+      );
+    }
+    dom.populateBoard(firstPlayer, secondPlayer);
+  }
 }
 
 function makeBotMove() {

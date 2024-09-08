@@ -39,7 +39,7 @@ describe('Gameboard class', () => {
       expect(gameboard.board[2][4]).toBe(ship);
     });
 
-    test("second ship isn't places due to proximity to the fist one", () => {
+    test("second ship isn't placed due to proximity to the fist one", () => {
       gameboard.placeShip(ship, 3, 2, 'vertical');
 
       expect(gameboard.board[3][2]).toBe(null);

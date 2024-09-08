@@ -159,7 +159,8 @@ dialog {
   gap: 8px;
 }
 
-.change-names-dialog input {
+.change-names-dialog input,
+.change-names-dialog button {
   border-radius: 20px;
   border: none;
   padding: 8px 16px;
@@ -173,6 +174,7 @@ dialog {
   background-color: var(--primary-color);
   font-weight: bold;
   color: #fff;
+  margin-top: 8px;
 }
 
 button:hover,
