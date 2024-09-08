@@ -6,12 +6,18 @@
     <title>Battleship</title>
   <script defer src="main.js"></script></head>
   <body>
+    <header>
+      <h1>Battleship</h1>
+      <button class="reset-button">RESET</button>
+    </header>
     <main>
       <div class="first-player">
         <div class="board-grid-container"></div>
+        <h2 class="players-name">Player 1</h2>
       </div>
       <div class="second-player">
         <div class="board-grid-container"></div>
+        <h2 class="players-name">Player 2</h2>
       </div>
     </main>
   </body>
@@ -21,5 +27,24 @@
       <p class="message"></p>
       <button class="play-again-button">PLAY AGAIN</button>
     </div>
+  </dialog>
+
+  <dialog class="change-names-dialog">
+    <form action="">
+      <legend>Enter the new names</legend>
+      <input
+        type="text"
+        name="second-name"
+        id="first-name-input"
+        placeholder="Player 1"
+      />
+      <input
+        type="text"
+        name="second-name"
+        id="second-name-input"
+        placeholder="Player 2"
+      />
+      <input type="submit" />
+    </form>
   </dialog>
 </html>
