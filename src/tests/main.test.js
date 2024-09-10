@@ -77,6 +77,31 @@ describe('Gameboard class', () => {
       expect(gameboard.haveAllBeenSunk()).toBe(false);
     });
   });
+
+  describe('getMovedShipPositions', () => {
+    test('return array of new ship positions', () => {
+      expect(gameboard.getMovedShipPositions(2, 2, 6, 5)).toStrictEqual({
+        newPositions: [
+          [6, 5],
+          [6, 6],
+          [6, 7],
+        ],
+        oldPositions: [
+          [2, 2],
+          [2, 3],
+          [2, 4],
+        ],
+      });
+    });
+  });
+
+  describe('moveShip', () => {
+    test('length of the moved ship (3) should be returned', () => {
+      gameboard.moveShip(2, 3, 5, 6);
+
+      expect(gameboard.board[5][6].length).toBe(3);
+    });
+  });
 });
 
 describe('Player class', () => {

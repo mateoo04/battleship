@@ -29,6 +29,41 @@ export class DOMManager {
           item.append(dot);
         } else if (board[i][j] !== null) {
           item.classList = 'ship';
+
+          item.id = `${i}-${j}`;
+
+          //drag and drop
+          if (!player.gameboard.hasBeenAttacked) {
+            item.draggable = true;
+
+            item.addEventListener('dragstart', (event) => {
+              event.dataTransfer.setData('text/plain', event.target.id);
+            });
+          }
+        }
+
+        if (!player.gameboard.hasBeenAttacked) {
+          item.addEventListener('dragover', (event) => {
+            event.preventDefault();
+          });
+
+          item.addEventListener('drop', (event) => {
+            event.preventDefault();
+
+            const droppedId = event.dataTransfer.getData('text');
+
+            const xCoordinate = droppedId.charAt(0);
+            const yCoordinate = droppedId.charAt(2);
+
+            player.gameboard.moveShip(
+              parseInt(xCoordinate),
+              parseInt(yCoordinate),
+              i,
+              j
+            );
+
+            this.populateActivePlayersBoard(player);
+          });
         }
 
         item.classList.add('board-item');
@@ -86,8 +121,8 @@ export class DOMManager {
       this.populateActivePlayersBoard(firstPlayer);
       this.populateOpponentsBoard(secondPlayer);
     } else {
-      this.populateActivePlayersBoard(firstPlayer);
-      this.populateOpponentsBoard(secondPlayer);
+      this.populateActivePlayersBoard(secondPlayer);
+      this.populateOpponentsBoard(firstPlayer);
     }
   }
 
@@ -120,20 +155,13 @@ function setUpPlayAgainButton() {
 function setNameClickListeners() {
   const changeNameDialog = document.querySelector('.change-names-dialog');
 
-  const firstNamePlayerName = document.querySelector(
-    '.first-player .players-name'
-  );
-  const secondNamePlayerName = document.querySelector(
-    '.second-player .players-name'
-  );
+  const playersNames = document.getElementsByClassName('players-name');
 
-  firstNamePlayerName.addEventListener('click', () => {
-    changeNameDialog.showModal();
-  });
-
-  secondNamePlayerName.addEventListener('click', () => {
-    changeNameDialog.showModal();
-  });
+  for (const element of playersNames) {
+    element.addEventListener('click', () => {
+      changeNameDialog.showModal();
+    });
+  }
 
   const changeNameForm = document.querySelector('.change-names-dialog form');
 
