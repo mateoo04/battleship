@@ -11,7 +11,7 @@ export class Gameboard {
     this.hasBeenAttacked = false;
   }
 
-  #isEmpty(x, y) {
+  isEmpty(x, y) {
     return this.board[x][y] === null;
   }
 
@@ -51,7 +51,7 @@ export class Gameboard {
     for (let i = Math.max(x - 1, 0); i <= Math.min(9, x + 1); i++) {
       for (let j = Math.max(0, y - 1); j <= Math.min(9, y + length); j++) {
         if (
-          !this.#isEmpty(i, j) &&
+          !this.isEmpty(i, j) &&
           this.board[i][j] &&
           !isEqual(this.board[i][j], shipException)
         )
@@ -65,7 +65,7 @@ export class Gameboard {
   canShipBePlacedVertically(length, x, y, shipException = 0) {
     for (let j = Math.max(0, y - 1); j <= Math.min(9, y + 1); j++) {
       for (let i = Math.max(0, x - 1); i <= Math.min(9, x + length); i++) {
-        if (!this.#isEmpty(i, j) && !isEqual(this.board[i][j], shipException)) {
+        if (!this.isEmpty(i, j) && !isEqual(this.board[i][j], shipException)) {
           return false;
         }
       }
@@ -125,10 +125,10 @@ export class Gameboard {
       let xMove = directions[directionIndex].x;
       let yMove = directions[directionIndex].y;
 
-      //function #isEmpty may fail if (x,y) if out of board bounds, so it must be in second place
+      //function isEmpty may fail if (x,y) if out of board bounds, so it must be in second place
       while (
         this.#isPositionValid(originalX + xMove, originalY + yMove) &&
-        !this.#isEmpty(originalX + xMove, originalY + yMove)
+        !this.isEmpty(originalX + xMove, originalY + yMove)
       ) {
         const newXItem = newX + xMove;
         const newYItem = newY + yMove;
@@ -136,7 +136,7 @@ export class Gameboard {
         if (!this.#isPositionValid(newXItem, newYItem)) return false;
 
         if (
-          this.#isEmpty(newXItem, newYItem) ||
+          this.isEmpty(newXItem, newYItem) ||
           isEqual(
             this.board[newXItem][newYItem],
             this.board[originalX][originalY]
@@ -205,7 +205,7 @@ export class Gameboard {
   moveShip(originalX, originalY, newX, newY) {
     if (
       (originalX === newX && originalY === newY) ||
-      (!this.#isEmpty(newX, newY) &&
+      (!this.isEmpty(newX, newY) &&
         !isEqual(this.board[originalX][originalY], this.board[newX][newY]))
     )
       return false;
@@ -238,5 +238,36 @@ export class Gameboard {
     );
 
     return true;
+  }
+
+  getBoatLengthsFromPosition(x, y) {
+    const directions = [
+      { x: -1, y: 0, quantity: 0 },
+      { x: 0, y: 1, quantity: 0 },
+      { x: 1, y: 0, quantity: 0 },
+      { x: 0, y: -1, quantity: 0 },
+    ];
+
+    for (let directionIndex = 0; directionIndex <= 3; directionIndex++) {
+      let currentX = x + directions[directionIndex].x;
+      let currentY = y + directions[directionIndex].y;
+
+      while (
+        this.#isPositionValid(currentX, currentY) &&
+        !this.isEmpty(currentX, currentY)
+      ) {
+        directions[directionIndex].quantity++;
+
+        currentX += directions[directionIndex].x;
+        currentY += directions[directionIndex].y;
+      }
+    }
+
+    return {
+      above: directions[0].quantity,
+      rightwards: directions[1].quantity,
+      below: directions[2].quantity,
+      leftwards: directions[3].quantity,
+    };
   }
 }

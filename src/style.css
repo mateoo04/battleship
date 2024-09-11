@@ -43,13 +43,47 @@ header {
   padding: 12px 18px;
 }
 
-header button {
+header button,
+.start-dialog button {
   background-color: var(--primary-color);
   border: none;
   border-radius: 20px;
   color: #fff;
   font-weight: bold;
   padding: 8px 20px;
+}
+
+.start-dialog {
+  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  border: none;
+}
+
+.start-dialog h1 {
+  font-size: 2.4em;
+}
+
+.start-dialog-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: min(40%, 300px);
+}
+
+.query-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.query-container p {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 main {
@@ -79,7 +113,8 @@ main {
   border: 1px solid #000;
 }
 
-.board-item:hover {
+.board-item:hover,
+.start-dialog button:hover {
   cursor: pointer;
   opacity: 0.8;
 }
@@ -129,7 +164,8 @@ main {
   background-color: #000;
 }
 
-dialog {
+.end-dialog-container,
+.change-names-dialog {
   border: none;
   border-radius: 20px;
 }

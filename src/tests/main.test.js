@@ -102,6 +102,28 @@ describe('Gameboard class', () => {
       expect(gameboard.board[5][6].length).toBe(3);
     });
   });
+
+  describe('getBoatLengthsFromPosition', () => {
+    test('correctly return boat lengths from middle of the boat', () => {
+      expect(gameboard.getBoatLengthsFromPosition(2, 3)).toStrictEqual({
+        above: 0,
+        rightwards: 1,
+        below: 0,
+        leftwards: 1,
+      });
+    });
+
+    test('correctly return boat lengths from a certain point', () => {
+      gameboard.placeShip(new Ship(5), 4, 4, 'vertical');
+
+      expect(gameboard.getBoatLengthsFromPosition(5, 4)).toStrictEqual({
+        above: 1,
+        rightwards: 0,
+        below: 3,
+        leftwards: 0,
+      });
+    });
+  });
 });
 
 describe('Player class', () => {

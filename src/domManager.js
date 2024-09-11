@@ -7,6 +7,8 @@ export class DOMManager {
     setUpPlayAgainButton();
     setNameClickListeners();
     setUpResetButton();
+
+    this.showStartDialog();
   }
 
   populateActivePlayersBoard(player) {
@@ -139,6 +141,30 @@ export class DOMManager {
     }
 
     endDialog.showModal();
+  }
+
+  showStartDialog() {
+    const REAL_PLAYERS_GAME = 'start game with real players';
+    const GAME_WITH_BOT = 'start game with a bot';
+
+    const startDialog = document.querySelector('.start-dialog');
+    startDialog.showModal();
+
+    document
+      .querySelector('.real-opponent-button')
+      .addEventListener('click', () => {
+        PubSub.publish(REAL_PLAYERS_GAME);
+
+        startDialog.close();
+      });
+
+    document
+      .querySelector('.game-with-bot-button')
+      .addEventListener('click', () => {
+        PubSub.publish(GAME_WITH_BOT);
+
+        startDialog.close();
+      });
   }
 }
 

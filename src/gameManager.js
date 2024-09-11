@@ -3,6 +3,8 @@ import { Player } from './player.js';
 import { Ship } from './ship.js';
 import PubSub from 'pubsub-js';
 
+const REAL_PLAYERS_GAME = 'start game with real players';
+const GAME_WITH_BOT = 'start game with a bot';
 const SHIP_HIT = 'ship hit';
 const SHIP_MISSED = 'ship missed';
 const NEW_GAME = 'new game';
@@ -30,6 +32,8 @@ function startGameWithBot() {
 
   dom.populateBoard(firstPlayer, secondPlayer);
 }
+
+function startGameWithRealPlayers() {}
 
 function randomizeShips(player) {
   for (let i = 1; i <= 5; i++) {
@@ -64,6 +68,14 @@ function checkForWinner() {
     dom.showEndDialog(firstPlayer);
 }
 
+PubSub.subscribe(REAL_PLAYERS_GAME, () => {
+  startGameWithRealPlayers();
+});
+
+PubSub.subscribe(GAME_WITH_BOT, () => {
+  startGameWithBot();
+});
+
 PubSub.subscribe(SHIP_HIT, () => {
   if (secondPlayer.isActive === true) {
     makeBotMove();
@@ -94,5 +106,3 @@ PubSub.subscribe(CHANGE_NAMES, (message, newNames) => {
   firstPlayer.changeName(newNames[0]);
   firstPlayer.changeName(newNames[1]);
 });
-
-startGameWithBot();
