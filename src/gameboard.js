@@ -6,9 +6,7 @@ export class Gameboard {
   constructor() {
     this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
     this.missed = [];
-
-    //tracks if the board has been attacked for the purpose of drag and drop
-    this.hasBeenAttacked = false;
+    this.isEditable = true;
   }
 
   isEmpty(x, y) {
@@ -75,8 +73,6 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
-    this.hasBeenAttacked = true;
-
     if (this.board[x][y] === null) {
       this.board[x][y] = 'attacked';
     } else if (
@@ -87,14 +83,18 @@ export class Gameboard {
       this.board[x][y].hit();
       this.board[x][y] = 'hit';
 
-      const SHIP_HIT = 'ship hit';
-      PubSub.publish(SHIP_HIT);
+      console.log('publishing SAME_PLAYERS');
+
+      const SAME_PLAYER = 'same players move';
+      PubSub.publish(SAME_PLAYER);
 
       return true;
     }
 
-    const SHIP_MISSED = 'ship missed';
-    PubSub.publish(SHIP_MISSED);
+    console.log('publishing NEXT_PLAYER');
+
+    const NEXT_PLAYER = 'next players move';
+    PubSub.publish(NEXT_PLAYER);
 
     this.missed.push([6, 4]);
     return false;

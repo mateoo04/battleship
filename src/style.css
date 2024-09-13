@@ -43,14 +43,20 @@ header {
   padding: 12px 18px;
 }
 
+.header-buttons button:first-of-type {
+  margin-right: 10px;
+}
+
 header button,
-.start-dialog button {
+.start-dialog button,
+.device-passed-button,
+.edit-board-dialog button {
   background-color: var(--primary-color);
   border: none;
   border-radius: 20px;
   color: #fff;
   font-weight: bold;
-  padding: 8px 20px;
+  padding: 10px 20px;
 }
 
 .start-dialog {
@@ -61,17 +67,44 @@ header button,
   border: none;
 }
 
+.start-dialog button {
+  padding: 10px px;
+}
+
 .start-dialog h1 {
   font-size: 2.4em;
 }
 
-.start-dialog-content {
+.start-dialog-content,
+.pass-device-dialog-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   gap: min(40%, 300px);
+}
+
+.pass-device-dialog {
+  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  border: none;
+}
+
+.edit-board-dialog {
+  position: fixed;
+  bottom: 10px;
+  border-radius: 20px;
+  border: 2px solid #000;
+}
+
+.edit-board-dialog-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
 }
 
 .query-container {
@@ -164,7 +197,7 @@ main {
   background-color: #000;
 }
 
-.end-dialog-container,
+.end-dialog,
 .change-names-dialog {
   border: none;
   border-radius: 20px;

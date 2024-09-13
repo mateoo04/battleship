@@ -8,7 +8,10 @@
   <body>
     <header>
       <h1>Battleship</h1>
-      <button class="reset-button">RESET</button>
+      <div class="header-buttons">
+        <button class="start-menu-button">GO TO START MENU</button>
+        <button class="reset-button">RESET</button>
+      </div>
     </header>
     <main>
       <div class="first-player">
@@ -55,8 +58,22 @@
       <div class="query-container">
         <p>How do you want to play?</p>
         <button class="real-opponent-button">PLAY WITH A REAL OPPONENT</button>
-        <button class="game-with-bot-button">PLAY WITH BOT</button>
+        <button class="game-with-bot-button">PLAY WITH A BOT</button>
       </div>
     </div>
+  </dialog>
+
+  <dialog class="pass-device-dialog">
+    <div class="pass-device-dialog-container">
+      <h2>
+        Please, pass device to the
+        <span></span>.
+      </h2>
+      <button class="device-passed-button"><span></span> IS HERE</button>
+    </div>
+  </dialog>
+
+  <dialog class="edit-board-dialog">
+    <div class="edit-board-dialog-container"></div>
   </dialog>
 </html>
