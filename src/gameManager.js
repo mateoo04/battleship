@@ -39,7 +39,9 @@ function startGame(firstPlayerType, secondPlayerType) {
   secondPlayer = new Player(
     'Player 2',
     secondPlayerType,
-    '.second-player .board-grid-container'
+    '.second-player .board-grid-container',
+    false,
+    firstPlayer.gameboard
   );
   if (secondPlayerType === 'computer')
     secondPlayer.gameboard.isEditable = false;
@@ -50,28 +52,26 @@ function startGame(firstPlayerType, secondPlayerType) {
   dom.populateBoard(firstPlayer, secondPlayer);
 }
 
-function makeBotMove() {
-  let x = Math.floor(Math.random() * 10);
-  let y = Math.floor(Math.random() * 10);
+// function makeBotMove() {
+//   let x = Math.floor(Math.random() * 10);
+//   let y = Math.floor(Math.random() * 10);
 
-  //making sure position hasn't been attacked yet
-  while (
-    firstPlayer.gameboard.board[x][y] !== null ||
-    (!firstPlayer.gameboard.board[x][y]) instanceof Ship
-  ) {
-    x = Math.floor(Math.random() * 10);
-    y = Math.floor(Math.random() * 10);
-  }
+//   //making sure position hasn't been attacked yet
+//   while (
+//     firstPlayer.gameboard.board[x][y] !== null ||
+//     (!firstPlayer.gameboard.board[x][y]) instanceof Ship
+//   ) {
+//     x = Math.floor(Math.random() * 10);
+//     y = Math.floor(Math.random() * 10);
+//   }
 
-  while (
-    firstPlayer.gameboard.board[x][y] === null ||
-    firstPlayer.gameboard.board[x][y] instanceof Ship
-  ) {
-    firstPlayer.gameboard.receiveAttack(x, y);
-  }
-
-  console.log('move made');
-}
+//   while (
+//     firstPlayer.gameboard.board[x][y] === null ||
+//     firstPlayer.gameboard.board[x][y] instanceof Ship
+//   ) {
+//     firstPlayer.gameboard.receiveAttack(x, y);
+//   }
+// }
 
 function checkForWinner() {
   if (firstPlayer.gameboard.haveAllBeenSunk()) dom.showEndDialog(secondPlayer);
@@ -90,12 +90,8 @@ PubSub.subscribe(GAME_WITH_BOT, () => {
 //ship was hit, same player makes the next move
 PubSub.subscribe(SAME_PLAYER, () => {
   if (secondPlayer.isActive === true && secondPlayer.type === 'computer') {
-    makeBotMove();
+    secondPlayer.bot.attack();
   }
-
-  console.log(
-    `SAME_PLAYER populate board: active player: ${firstPlayer.isActive ? firstPlayer.name : secondPlayer.name}`
-  );
   dom.populateBoard(firstPlayer, secondPlayer);
   checkForWinner();
 });
@@ -107,16 +103,13 @@ PubSub.subscribe(NEXT_PLAYER, () => {
     secondPlayer.isActive = true;
 
     if (secondPlayer.type === 'computer') {
-      makeBotMove();
+      secondPlayer.bot.attack();
     }
   } else {
     firstPlayer.isActive = true;
     secondPlayer.isActive = false;
   }
 
-  console.log(
-    `NEXT_PLAYER populate board: active player: ${firstPlayer.isActive ? firstPlayer.name : secondPlayer.name}`
-  );
   dom.populateBoard(firstPlayer, secondPlayer, true);
   checkForWinner();
 });

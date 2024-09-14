@@ -158,7 +158,6 @@ export class DOMManager {
 
   showEndDialog(winner) {
     const endDialog = document.querySelector('.end-dialog');
-    console.log('win');
 
     if (winner.type === 'computer') {
       document.querySelector('.end-dialog .message').textContent =

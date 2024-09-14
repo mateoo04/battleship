@@ -1,6 +1,7 @@
 import { Ship } from '../ship.js';
 import { Gameboard } from '../gameboard.js';
 import { Player } from '../player.js';
+import { Bot } from '../bot.js';
 
 describe('Ship class', () => {
   let ship;
@@ -136,5 +137,22 @@ describe('Player class', () => {
     const player = new Player('Player 1', 'real', 0);
 
     expect(player.gameboard.board[9][9]).toBe(null);
+  });
+});
+
+describe('Bot class', () => {
+  test('attacks opponents board, returns true', () => {
+    const realPlayer = new Player(
+      'Player 1',
+      'real',
+      '.first-player .board-grid-container',
+      true
+    );
+
+    const bot = new Bot(realPlayer.gameboard);
+
+    const [x, y] = bot.attack();
+
+    expect(realPlayer.gameboard.board[x][y]).not.toBe(null);
   });
 });

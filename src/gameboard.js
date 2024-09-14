@@ -81,6 +81,8 @@ export class Gameboard {
       { x: 1, y: 1 },
     ];
 
+    let wasHit = false;
+
     if (this.board[x][y] === null) {
       this.board[x][y] = 'attacked';
     } else if (
@@ -104,12 +106,14 @@ export class Gameboard {
         ) {
           this.board[targetedX][targetedY] = 'attacked';
         }
+
+        wasHit = true;
       }
 
       const SAME_PLAYER = 'same players move';
       PubSub.publish(SAME_PLAYER);
 
-      return true;
+      return wasHit;
     }
 
     const NEXT_PLAYER = 'next players move';
