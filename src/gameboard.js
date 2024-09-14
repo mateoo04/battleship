@@ -5,10 +5,10 @@ import isEqual from 'lodash/isEqual';
 export class Gameboard {
   constructor() {
     this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
-    this.missed = [];
     this.isEditable = true;
   }
 
+  //checks if a position is empty
   isEmpty(x, y) {
     return this.board[x][y] === null;
   }
@@ -118,8 +118,6 @@ export class Gameboard {
 
     const NEXT_PLAYER = 'next players move';
     PubSub.publish(NEXT_PLAYER);
-
-    this.missed.push([6, 4]);
     return false;
   }
 
@@ -129,10 +127,12 @@ export class Gameboard {
     );
   }
 
+  //checks if position is within the board
   #isPositionValid(x, y) {
     return x >= 0 && x <= 9 && y >= 0 && y <= 9;
   }
 
+  //determines position of a moved ship
   getMovedShipPositions(originalX, originalY, newX, newY) {
     const directions = [
       { x: -1, y: 0 },

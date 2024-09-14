@@ -8,12 +8,18 @@ const editBoardDialog = document.querySelector('.edit-board-dialog');
 
 export class DOMManager {
   constructor() {
-    setUpPlayAgainButton();
+    //'play again' button appears in a dialog after game end
+    const playAgainButton = document.querySelector('.play-again-button');
+    playAgainButton.addEventListener('click', () => {
+      PubSub.publish(NEW_GAME);
+
+      document.querySelector('.end-dialog').close();
+    });
+
     setNameClickListeners();
 
     //reset button
     const resetButton = document.querySelector('.reset-button');
-
     resetButton.addEventListener('click', () => {
       PubSub.publish(NEW_GAME);
     });
@@ -62,6 +68,7 @@ export class DOMManager {
           }
         }
 
+        //makes ships moveable at start of the game
         if (player.gameboard.isEditable) {
           item.addEventListener('dragover', (event) => {
             event.preventDefault();
@@ -165,6 +172,7 @@ export class DOMManager {
     else if (secondPlayer.type === 'computer') editBoardDialog.close();
   }
 
+  //displayed at end of the game
   showEndDialog(winner) {
     const endDialog = document.querySelector('.end-dialog');
 
@@ -203,6 +211,7 @@ export class DOMManager {
       });
   }
 
+  //displayed when it's opponents turn to make a move
   showPassDeviceDialog(nextPlayerName) {
     const passDeviceDialog = document.querySelector('.pass-device-dialog');
     const nextPlayerNameButton = document.querySelector(
@@ -224,6 +233,7 @@ export class DOMManager {
     });
   }
 
+  //displays a message that the player may move their ships around the board
   showEditMessage(player) {
     const editBoardDialogContainer = document.querySelector(
       '.edit-board-dialog-container'
@@ -248,16 +258,7 @@ export class DOMManager {
   }
 }
 
-function setUpPlayAgainButton() {
-  const playAgainButton = document.querySelector('.play-again-button');
-
-  playAgainButton.addEventListener('click', () => {
-    PubSub.publish(NEW_GAME);
-
-    document.querySelector('.end-dialog').close();
-  });
-}
-
+//players' names may be edited at any time by clicking the name below the board
 function setNameClickListeners() {
   const changeNameDialog = document.querySelector('.change-names-dialog');
 
@@ -288,6 +289,7 @@ function setNameClickListeners() {
   });
 }
 
+//sends request to update the names
 function updateNames(name1, name2) {
   const firstNamePlayerName = document.querySelector(
     '.first-player .players-name'
@@ -303,9 +305,10 @@ function updateNames(name1, name2) {
   PubSub.publish(CHANGE_NAMES, [name1, name2]);
 }
 
+//shows dialog while bot is making a move
 PubSub.subscribe(BOT_MOVE, () => {
   const botMoveDialog = document.querySelector('.bot-attack-dialog');
   botMoveDialog.showModal();
 
-  setTimeout(() => botMoveDialog.close(), 2000);
+  setTimeout(() => botMoveDialog.close(), 1000);
 });

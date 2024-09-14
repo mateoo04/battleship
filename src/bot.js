@@ -1,6 +1,8 @@
 import { Ship } from './ship.js';
 import PubSub from 'pubsub-js';
 
+//used when the game mode with a bot is selected
+//makes calculated moves
 export class Bot {
   constructor(opponentsGameboard) {
     this.opponentsGameboard = opponentsGameboard;
@@ -8,14 +10,18 @@ export class Bot {
   }
 
   async attack() {
+    //requests a dialog with an animation during a bot attack
     const BOT_MOVE = 'bot is making a move';
     PubSub.publish(BOT_MOVE);
-    await delay(3000);
+
+    //delays move calculation and board updates by 800 ms
+    await delay(1000);
 
     let orientation = null;
     let x;
     let y;
 
+    //if attack queue is empty, position of the next attack is randomly generated
     if (this.attackQueue.length !== 0) {
       x = this.attackQueue[0].x;
       y = this.attackQueue[0].y;
@@ -38,6 +44,7 @@ export class Bot {
       }
     }
 
+    //if the attack was successful, diagonal adjacent position are placed in a queue of upcoming attacks
     if (this.opponentsGameboard.receiveAttack(x, y)) {
       const directions = [
         { x: -1, y: 0 },

@@ -10,6 +10,7 @@ const NEXT_PLAYER = 'next players move';
 const NEW_GAME = 'new game';
 const CHANGE_NAMES = 'change names';
 
+//places the ship at a random position on the board
 function randomizeShips(player) {
   for (let i = 1; i <= 5; i++) {
     let shipPlaced = false;
@@ -38,6 +39,7 @@ function startGame(firstPlayerType, secondPlayerType) {
     false,
     firstPlayer.gameboard
   );
+
   if (secondPlayerType === 'computer')
     secondPlayer.gameboard.isEditable = false;
 
@@ -47,37 +49,19 @@ function startGame(firstPlayerType, secondPlayerType) {
   dom.populateBoard(firstPlayer, secondPlayer);
 }
 
-// function makeBotMove() {
-//   let x = Math.floor(Math.random() * 10);
-//   let y = Math.floor(Math.random() * 10);
-
-//   //making sure position hasn't been attacked yet
-//   while (
-//     firstPlayer.gameboard.board[x][y] !== null ||
-//     (!firstPlayer.gameboard.board[x][y]) instanceof Ship
-//   ) {
-//     x = Math.floor(Math.random() * 10);
-//     y = Math.floor(Math.random() * 10);
-//   }
-
-//   while (
-//     firstPlayer.gameboard.board[x][y] === null ||
-//     firstPlayer.gameboard.board[x][y] instanceof Ship
-//   ) {
-//     firstPlayer.gameboard.receiveAttack(x, y);
-//   }
-// }
-
+//checks if all boats of either player have been sunk
 function checkForWinner() {
   if (firstPlayer.gameboard.haveAllBeenSunk()) dom.showEndDialog(secondPlayer);
   else if (secondPlayer.gameboard.haveAllBeenSunk())
     dom.showEndDialog(firstPlayer);
 }
 
+//when game mode with two real players is chosen
 PubSub.subscribe(REAL_PLAYERS_GAME, () => {
   startGame('real', 'real');
 });
 
+//when game mode of game with a bot is chosen
 PubSub.subscribe(GAME_WITH_BOT, () => {
   startGame('real', 'computer');
 });
@@ -109,10 +93,12 @@ PubSub.subscribe(NEXT_PLAYER, () => {
   checkForWinner();
 });
 
+//when a new game is requested
 PubSub.subscribe(NEW_GAME, () =>
   startGame(firstPlayer.type, secondPlayer.type)
 );
 
+//change of players' names requested
 PubSub.subscribe(CHANGE_NAMES, (message, newNames) => {
   firstPlayer.changeName(newNames[0]);
   firstPlayer.changeName(newNames[1]);
