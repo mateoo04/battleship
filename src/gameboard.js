@@ -73,6 +73,14 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
+    //directions for adjacent diagonal neighbors
+    const directions = [
+      { x: -1, y: -1 },
+      { x: -1, y: 1 },
+      { x: 1, y: -1 },
+      { x: 1, y: 1 },
+    ];
+
     if (this.board[x][y] === null) {
       this.board[x][y] = 'attacked';
     } else if (
@@ -83,15 +91,26 @@ export class Gameboard {
       this.board[x][y].hit();
       this.board[x][y] = 'hit';
 
-      console.log('publishing SAME_PLAYERS');
+      //marking adjacent diagonal neighbors as attacked
+      for (const d of directions) {
+        const targetedX = x + d.x;
+        const targetedY = y + d.y;
+
+        if (
+          targetedX >= 0 &&
+          targetedX <= 9 &&
+          targetedY >= 0 &&
+          targetedY <= 9
+        ) {
+          this.board[targetedX][targetedY] = 'attacked';
+        }
+      }
 
       const SAME_PLAYER = 'same players move';
       PubSub.publish(SAME_PLAYER);
 
       return true;
     }
-
-    console.log('publishing NEXT_PLAYER');
 
     const NEXT_PLAYER = 'next players move';
     PubSub.publish(NEXT_PLAYER);
