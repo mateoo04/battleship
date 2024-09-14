@@ -182,6 +182,13 @@ main {
   background-color: var(--primary-color);
 }
 
+.moveable-ship-item {
+  background-image: url('./move-icon.svg');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .hit-ship {
   position: relative;
   border: 1px solid black;

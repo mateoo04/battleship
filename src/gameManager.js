@@ -83,6 +83,9 @@ PubSub.subscribe(NEXT_PLAYER, () => {
 
     if (secondPlayer.type === 'computer') {
       secondPlayer.bot.attack();
+
+      //makes real player's board uneditable when it's bot's turn (real players always makes the first move)
+      firstPlayer.gameboard.isEditable = false;
     }
   } else {
     firstPlayer.isActive = true;

@@ -1,4 +1,5 @@
 import style from './style.css';
+import { Ship } from './ship.js';
 import PubSub from 'pubsub-js';
 
 const NEW_GAME = 'new game';
@@ -58,9 +59,16 @@ export class DOMManager {
 
           item.id = `${i}-${j}`;
 
+          const hasShipAbove =
+            i > 0 ? player.gameboard.board[i - 1][j] instanceof Ship : false;
+          const hasShipLeft =
+            j > 0 ? player.gameboard.board[i][j - 1] instanceof Ship : false;
+
           //drag and drop
-          if (player.gameboard.isEditable) {
+          if (player.gameboard.isEditable && !hasShipAbove && !hasShipLeft) {
             item.draggable = true;
+
+            item.classList.add('moveable-ship-item');
 
             item.addEventListener('dragstart', (event) => {
               event.dataTransfer.setData('text/plain', event.target.id);
