@@ -1,4 +1,5 @@
 import { Ship } from './ship.js';
+import PubSub from 'pubsub-js';
 
 export class Bot {
   constructor(opponentsGameboard) {
@@ -6,7 +7,11 @@ export class Bot {
     this.attackQueue = [];
   }
 
-  attack() {
+  async attack() {
+    const BOT_MOVE = 'bot is making a move';
+    PubSub.publish(BOT_MOVE);
+    await delay(3000);
+
     let orientation = null;
     let x;
     let y;
@@ -71,4 +76,8 @@ export class Bot {
 
     return [x, y];
   }
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

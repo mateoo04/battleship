@@ -3,6 +3,7 @@ import PubSub from 'pubsub-js';
 
 const NEW_GAME = 'new game';
 const NEXT_PLAYER = 'next players move';
+const BOT_MOVE = 'bot is making a move';
 const editBoardDialog = document.querySelector('.edit-board-dialog');
 
 export class DOMManager {
@@ -91,7 +92,11 @@ export class DOMManager {
       }
     }
 
-    let boardContainer = document.querySelector(player.elementQuery);
+    document.querySelector(`${player.elementQuery} .players-name`).style.color =
+      '#34495e';
+    const boardContainer = document.querySelector(
+      `${player.elementQuery}  .board-grid-container`
+    );
 
     boardContainer.innerHTML = '';
     boardContainer.append(boardGrid);
@@ -129,7 +134,11 @@ export class DOMManager {
       }
     }
 
-    let boardContainer = document.querySelector(player.elementQuery);
+    document.querySelector(`${player.elementQuery} .players-name`).style.color =
+      '#fff';
+    const boardContainer = document.querySelector(
+      `${player.elementQuery}  .board-grid-container`
+    );
 
     boardContainer.innerHTML = '';
     boardContainer.append(boardGrid);
@@ -294,17 +303,9 @@ function updateNames(name1, name2) {
   PubSub.publish(CHANGE_NAMES, [name1, name2]);
 }
 
-// function setUpResetButton() {
-//   const resetButton = document.querySelector('.reset-button');
+PubSub.subscribe(BOT_MOVE, () => {
+  const botMoveDialog = document.querySelector('.bot-attack-dialog');
+  botMoveDialog.showModal();
 
-//   resetButton.addEventListener('click', () => {
-//     PubSub.publish(NEW_GAME);
-//   });
-// }
-
-// function setUpGoToStartMenuButton() {
-//   const startMenuButton = document.querySelector('.start-menu-button');
-//   startMenuButton.addEventListener('click',()=>{
-
-//   })
-// }
+  setTimeout(() => botMoveDialog.close(), 2000);
+});

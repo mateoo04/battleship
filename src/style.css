@@ -1,7 +1,6 @@
 :root {
   --block-dimension: min(50px, calc(4vw));
-  --primary-color: #4f209b;
-  --lighter-color: #7e87ff;
+  --primary-color: #34495e;
 }
 
 * {
@@ -37,6 +36,23 @@ body {
   grid-template-rows: min-content 1fr;
 }
 
+/*Background animation*/
+body,
+.start-dialog {
+  background: radial-gradient(circle, #b1afff, #bbe9ff, #fffed3);
+  animation: pulseBackground 6s ease-in-out infinite;
+}
+
+@keyframes pulseBackground {
+  0%,
+  100% {
+    background-size: 100% 100%;
+  }
+  50% {
+    background-size: 200% 200%;
+  }
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -51,12 +67,22 @@ header button,
 .start-dialog button,
 .device-passed-button,
 .edit-board-dialog button {
-  background-color: var(--primary-color);
   border: none;
   border-radius: 20px;
-  color: #fff;
   font-weight: bold;
   padding: 10px 20px;
+}
+
+header button,
+.start-dialog button {
+  background-color: #fff;
+  color: #000;
+}
+
+.device-passed-button,
+.edit-board-dialog button {
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
 .start-dialog {
@@ -97,7 +123,7 @@ header button,
   position: fixed;
   bottom: 10px;
   border-radius: 20px;
-  border: 2px solid #000;
+  border: 0;
 }
 
 .edit-board-dialog-container {
@@ -143,7 +169,7 @@ main {
 .board-item {
   height: var(--block-dimension);
   width: var(--block-dimension);
-  border: 1px solid #000;
+  border: 1px solid var(--primary-color);
 }
 
 .board-item:hover,
@@ -153,7 +179,7 @@ main {
 }
 
 .ship {
-  background-color: var(--lighter-color);
+  background-color: var(--primary-color);
 }
 
 .hit-ship {
@@ -194,13 +220,40 @@ main {
   width: calc(var(--block-dimension) / 3);
   height: calc(var(--block-dimension) / 3);
   border-radius: 50%;
-  background-color: #000;
+  background-color: var(--primary-color);
 }
 
 .end-dialog,
-.change-names-dialog {
+.change-names-dialog,
+.bot-attack-dialog {
   border: none;
   border-radius: 20px;
+}
+
+.bot-attack-dialog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.process-animation {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  animation: move 0.9s ease-in-out infinite;
+  margin: 0 30%;
+}
+
+@keyframes move {
+  0% {
+    align-self: baseline;
+  }
+  100% {
+    align-self: flex-end;
+  }
 }
 
 .end-dialog-container {

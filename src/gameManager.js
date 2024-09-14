@@ -30,16 +30,11 @@ let firstPlayer;
 let secondPlayer;
 
 function startGame(firstPlayerType, secondPlayerType) {
-  firstPlayer = new Player(
-    'Player 1',
-    firstPlayerType,
-    '.first-player .board-grid-container',
-    true
-  );
+  firstPlayer = new Player('Player 1', firstPlayerType, '.first-player', true);
   secondPlayer = new Player(
     'Player 2',
     secondPlayerType,
-    '.second-player .board-grid-container',
+    '.second-player',
     false,
     firstPlayer.gameboard
   );
