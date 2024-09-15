@@ -72,6 +72,20 @@ export class DOMManager {
 
             item.addEventListener('dragstart', (event) => {
               event.dataTransfer.setData('text/plain', event.target.id);
+
+              const surrounding = player.gameboard.getBoatLengthsFromPosition(
+                i,
+                j
+              );
+              if (surrounding.below > 0)
+                item.style.paddingBottom = `${surrounding.below * 100}%`;
+              if (surrounding.rightwards > 0)
+                item.style.paddingRight = `${surrounding.rightwards * 100}%`;
+            });
+
+            item.addEventListener('dragend', () => {
+              item.style.paddingBottom = '0px';
+              item.style.paddingRight = '0px';
             });
           }
         }

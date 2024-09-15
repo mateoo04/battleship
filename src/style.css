@@ -184,7 +184,7 @@ main {
 
 .moveable-ship-item {
   background-image: url('./move-icon.svg');
-  background-size: 50%;
+  background-size: calc(var(--block-dimension) / 2);
   background-repeat: no-repeat;
   background-position: center;
 }
