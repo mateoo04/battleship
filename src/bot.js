@@ -15,7 +15,7 @@ export class Bot {
     PubSub.publish(BOT_MOVE);
 
     //delays move calculation and board updates by 800 ms
-    await delay(1000);
+    await delay(500);
 
     let orientation = null;
     let x;
@@ -57,6 +57,7 @@ export class Bot {
         const targetedX = x + d.x;
         const targetedY = y + d.y;
 
+        //diagonal adjacent positions of a successfully hit position are queued
         if (
           targetedX >= 0 &&
           targetedX <= 9 &&

@@ -40,6 +40,7 @@ export class DOMManager {
     const boardGrid = document.createElement('div');
     boardGrid.classList.add('board-grid');
 
+    //iterates over player's board to create a board in HTML out of it
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         const item = document.createElement('div');
@@ -64,7 +65,7 @@ export class DOMManager {
           const hasShipLeft =
             j > 0 ? player.gameboard.board[i][j - 1] instanceof Ship : false;
 
-          //drag and drop
+          //enables moving a ship by dragging its first item at the start of a game
           if (player.gameboard.isEditable && !hasShipAbove && !hasShipLeft) {
             item.draggable = true;
 
@@ -77,12 +78,15 @@ export class DOMManager {
                 i,
                 j
               );
+
+              //adds padding needed to make the dragged item size of the ship it is part of
               if (surrounding.below > 0)
                 item.style.paddingBottom = `${surrounding.below * 100}%`;
               if (surrounding.rightwards > 0)
                 item.style.paddingRight = `${surrounding.rightwards * 100}%`;
             });
 
+            //removes padding on a previously dragged item
             item.addEventListener('dragend', () => {
               item.style.paddingBottom = '0px';
               item.style.paddingRight = '0px';
@@ -137,6 +141,7 @@ export class DOMManager {
     const boardGrid = document.createElement('div');
     boardGrid.classList.add('board-grid');
 
+    //iterates over player's board to create a board in HTML out of it
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         const item = document.createElement('div');
@@ -187,6 +192,7 @@ export class DOMManager {
         this.showEditMessage(secondPlayer);
     }
 
+    //request a 'pass device dialog' to be shown when the active player is switched if both players are real
     if (secondPlayer.type === 'real' && playerSwitched)
       this.showPassDeviceDialog(
         firstPlayer.isActive ? firstPlayer.name : secondPlayer.name
@@ -209,6 +215,7 @@ export class DOMManager {
     endDialog.showModal();
   }
 
+  //shows game mode options
   showStartMenu() {
     const REAL_PLAYERS_GAME = 'start game with real players';
     const GAME_WITH_BOT = 'start game with a bot';
@@ -332,5 +339,5 @@ PubSub.subscribe(BOT_MOVE, () => {
   const botMoveDialog = document.querySelector('.bot-attack-dialog');
   botMoveDialog.showModal();
 
-  setTimeout(() => botMoveDialog.close(), 1000);
+  setTimeout(() => botMoveDialog.close(), 600);
 });

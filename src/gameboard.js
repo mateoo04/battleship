@@ -263,6 +263,7 @@ export class Gameboard {
     return true;
   }
 
+  //returns number of adjacent items on each side of the chosen position
   getBoatLengthsFromPosition(x, y) {
     const directions = [
       { x: -1, y: 0, quantity: 0 },
